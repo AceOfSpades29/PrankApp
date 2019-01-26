@@ -1,0 +1,36 @@
+﻿@model PrankApp.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<p>
+    <a asp-action="">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Device Id</th>
+            <th>Device Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Devices) {
+    
+    <tr>
+        <td>
+            @item.Id
+        </td>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
