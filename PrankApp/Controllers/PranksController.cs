@@ -98,11 +98,16 @@ namespace PrankApp.Controllers
         }
 
         [HttpGet]
-        [Route("api/Pranks/CheckMyTurn/{id}")]
-        public async Task<bool> CheckMyTurn([FromRoute] string id)
+        [Route("CheckMyTurn/{id}")]
+        public async Task<JsonResult> CheckMyTurn([FromRoute] string id)
         {
-            //TODO Not hitting this endpoint
-            return true;
+            Random rnd = new Random();
+            int number = rnd.Next(0, 10);
+            if (number > 5)
+            {
+                return new JsonResult("true");
+            }
+            return new JsonResult("false");
         }
 
         // DELETE: api/Pranks/5
