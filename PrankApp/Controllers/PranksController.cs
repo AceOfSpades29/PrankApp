@@ -22,7 +22,7 @@ namespace PrankApp.Controllers
 
         // GET: api/Pranks
         [HttpGet]
-        public IEnumerable<Prank> GetPrank()
+        public IEnumerable<Prank> GetPranks()
         {
             return _context.Prank;
         }
@@ -99,6 +99,7 @@ namespace PrankApp.Controllers
         [Route("CheckMyTurn/{id}")]
         public async Task<JsonResult> CheckMyTurn([FromRoute] string id)
         {
+            //check pranks for this phone id
             Random rnd = new Random();
             int number = rnd.Next(0, 10);
             if (number > 5)
@@ -106,6 +107,50 @@ namespace PrankApp.Controllers
                 return new JsonResult("true");
             }
             return new JsonResult("false");
+        }
+
+        [HttpGet]
+        [Route("ReallyCheckMyTurn/{id}")]
+        public async Task<JsonResult> ReallyCheckMyTurn([FromRoute] string id)
+        {
+            var pranks = GetPranks();
+            foreach (var prank in pranks)
+            {
+                for (var i = 0; i < prank.DeviceList.Count; i++)
+                {
+                    var device = prank.DeviceList[i];
+                    if (device.Id == id && i == prank.TurnIndex)
+                    {
+                        return new JsonResult("true");
+                    }
+                }
+            }
+            return new JsonResult("false");
+        }
+
+        [HttpPost]
+        [Route("MyTurnIsOver")]
+        public async Task MyTurnIsOver(string id)
+        {
+            var pranks = GetPranks();
+            foreach (var prank in pranks)
+            {
+                foreach (var device in prank.DeviceList)
+                {
+                    if (device.Id == id)
+                    {
+                        prank.TurnIndex++;
+                        try
+                        {
+                            _context.Entry(prank).State = EntityState.Modified;
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    }
+                }
+            }
         }
 
         // DELETE: api/Pranks/5
