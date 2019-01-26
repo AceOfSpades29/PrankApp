@@ -18,13 +18,14 @@ namespace PrankApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult RegisterDevice(string id, string name)
+        public JsonResult RegisterDevice([FromBody] Device device)
         {
             try
             {
-                var device = new Device();
-                device.Id = id;
-                device.Name = name;
+                if (!ModelState.IsValid)
+                {
+                    return new JsonResult(BadRequest(device));
+                }
                 _context.Device.Add(device);
                 _context.SaveChanges();
                 return new JsonResult($"{{result: {true}}}");
@@ -36,7 +37,8 @@ namespace PrankApp.Controllers
         }
 
         [HttpDelete]
-        public JsonResult DeRegisterDevice(string id)
+        [Route("remove/{id}")]
+        public JsonResult RemoveDevice(string id)
         {
             try
             {
@@ -47,7 +49,7 @@ namespace PrankApp.Controllers
                     _context.SaveChanges();
                     return new JsonResult($"{{result: {true}}}");
                 }
-                return new JsonResult($"{{result: {false}, message: device not found");
+                return new JsonResult($"{{result: {false}, message: device not found}}");
             }
             catch (Exception ex)
             {
