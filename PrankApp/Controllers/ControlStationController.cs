@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PrankApp.Models;
-using PrankApp.Views.ControlStation;
 
 namespace PrankApp.Controllers
 {
