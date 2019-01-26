@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PrankApp.Models;
 
@@ -7,10 +8,11 @@ namespace PrankApp.Controllers
     public class ControlStationController : Controller
     {
         private PrankAppContext _context;
-
-        public ControlStationController(PrankAppContext context)
+        private PranksController _pranksController;
+        public ControlStationController(PrankAppContext context, PranksController pranksController)
         {
             _context = context;
+            _pranksController = pranksController;
         }
         public IActionResult Dashboard()
         {
@@ -70,6 +72,17 @@ namespace PrankApp.Controllers
 
             var model = GetModel();
             return View("Dashboard", model);
+        }
+
+        public async Task<IActionResult> StartPrank(string prankId)
+        {
+            var prank = _context.Prank.FirstOrDefault(p => p.Id == prankId);
+            if (prank != null)
+            {
+                await _pranksController.PutPrank(prankId, prank);
+            }
+
+            return View("Dashboard", GetModel());
         }
     }
 }

@@ -35,7 +35,7 @@ namespace PrankApp
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddMvc().AddControllersAsServices();
             services.AddDbContext<PrankAppContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("PrankAppContext")));
         }
