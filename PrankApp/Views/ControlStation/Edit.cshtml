@@ -1,0 +1,16 @@
+﻿@model Prank
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>@Model.Name</h2>
+<form>
+    <div>
+        <label>Devices @string.Join(" | ", Model.DeviceList?.Select(dl=>dl.Name)??new List<string>(){"None"})</label>
+
+    </div>
+    
+    <input type ="Submit"/>
+</form>

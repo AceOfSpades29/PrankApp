@@ -18,25 +18,48 @@
         </tr>
     </thead>
     <tbody>
-    <tr>
-        <td/>
-        <td/>
-        <td><a asp-action="Create"> Add Device</a></td>
-    </tr>
-    @foreach (var item in Model.Devices)
-    {
-
         <tr>
-            <td>
-                @item.Id
-            </td>
-            <td>
-                @item.Name
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            <td />
+            <td />
+            <td><a asp-action="Create"> Add Device</a></td>
         </tr>
-    }
+        @foreach (var item in Model.Devices)
+        {
+
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h1>Pranks</h1>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 100px">Prank Name</th>
+            <th style="width: 200px" >Prank Device List</th>
+            <th style="width: 100px">Prank Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prank in Model.Pranks)
+        {
+            <tr>
+                <td> @prank.Name</td>
+                <td>
+                    @string.Join(" | ", prank.DeviceList?.Select(dl => dl.Name)?.ToList()??new List<string>())
+                </td>
+                <td><a asp-action="Edit" asp-route-prankId="@prank.Id"> Edit Prank</a></td>
+            </tr>
+        }
     </tbody>
 </table>

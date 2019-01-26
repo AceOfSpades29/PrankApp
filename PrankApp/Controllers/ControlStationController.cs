@@ -24,6 +24,7 @@ namespace PrankApp.Controllers
             var model = new DashboardViewModel();
 
             model.Devices = _context.Device.ToList();
+            model.Pranks = _context.Prank.ToList();
             return model;
         }
 
@@ -55,6 +56,18 @@ namespace PrankApp.Controllers
 
             _context.Device.Add(device);
             _context.SaveChanges();
+            var model = GetModel();
+            return View("Dashboard", model);
+        }
+
+        public IActionResult Edit(string prankId)
+        {
+            var prank = _context.Prank.FirstOrDefault(p => p.Id == prankId);
+            if (prank != null)
+            {
+                return View(prank);
+            }
+
             var model = GetModel();
             return View("Dashboard", model);
         }
