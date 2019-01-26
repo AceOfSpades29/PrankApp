@@ -11,5 +11,6 @@ namespace PrankApp.Models
 
         public string Id { get; set; }
 
+
     }
 }

@@ -14,5 +14,6 @@ namespace PrankApp.Models
         }
 
         public DbSet<PrankApp.Models.Prank> Prank { get; set; }
+        public DbSet<Device> Device { get; set; }
     }
 }
