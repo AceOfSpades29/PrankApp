@@ -39,5 +39,24 @@ namespace PrankApp.Controllers
             var model = GetModel();
             return View("Dashboard", model);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Device device)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(device);
+            }
+
+            _context.Device.Add(device);
+            _context.SaveChanges();
+            var model = GetModel();
+            return View("Dashboard", model);
+        }
     }
 }
