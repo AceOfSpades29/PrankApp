@@ -89,8 +89,6 @@ namespace PrankApp.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            prank = new Prank();
             _context.Prank.Add(prank);
             await _context.SaveChangesAsync();
 
